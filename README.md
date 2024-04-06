@@ -4,6 +4,7 @@
   select distinct(count(id)) as Total_Loan_application from financial_loan
 
   /*MTD Total_Loan_application*/
+  
    select
    YEAR(issue_date) as Year,
    MONTH(issue_date) as Month_Number,
@@ -34,6 +35,7 @@
 
    /*MOM Total_Loan_application
    formula=(MTD-PMTD)/PMTD*/
+   
    with cte as(
    select
    YEAR(issue_date) as Year,
@@ -69,6 +71,7 @@
 
 
 /*2. Total Funded Amount */
+
 select * from financial_loan
 select sum(loan_amount) as Total_Funded_Amount from financial_loan
 
@@ -84,6 +87,7 @@ select sum(loan_amount) as Total_Funded_Amount from financial_loan
    
    /*MOM Total_Funded_amount
    formula=(MTD-PMTD)/PMTD*/
+   
   with cte as(
    select
    YEAR(issue_date) as Year,
@@ -102,10 +106,12 @@ select sum(loan_amount) as Total_Funded_Amount from financial_loan
 
 
  /*3. Total Amount Received */
+ 
 select * from financial_loan
 select sum(total_payment) as Total_Amount_Received from financial_loan
 
 /*MTD Total_Funded_amount*/
+
    select
    YEAR(issue_date) as Year,
    MONTH(issue_date) as Month_Number,
@@ -117,6 +123,7 @@ select sum(total_payment) as Total_Amount_Received from financial_loan
    
    /*MOM Total_Funded_amount
    formula=(MTD-PMTD)/PMTD*/
+   
   with cte as(
    select
    YEAR(issue_date) as Year,
@@ -134,10 +141,12 @@ select sum(total_payment) as Total_Amount_Received from financial_loan
 
 
  /*4. Average Interest Rate */
+ 
 select * from financial_loan
 select round(avg(int_rate)*100,2) as Average_Interest_Rate from financial_loan
 
 /*MTD Total_Funded_amount*/
+
    select
    YEAR(issue_date) as Year,
    MONTH(issue_date) as Month_Number,
@@ -149,6 +158,7 @@ select round(avg(int_rate)*100,2) as Average_Interest_Rate from financial_loan
    
    /*MOM Total_Funded_amount
    formula=(MTD-PMTD)/PMTD*/
+   
   with cte as(
    select
    YEAR(issue_date) as Year,
@@ -168,10 +178,12 @@ select round(avg(int_rate)*100,2) as Average_Interest_Rate from financial_loan
 
    
      /*5. Average DTI */
+     
 select * from financial_loan
 select round(avg(dti)*100,2) as Average_Interest_Rate from financial_loan
 
 /*MTD Average DTI*/
+
    select
    YEAR(issue_date) as Year,
    MONTH(issue_date) as Month_Number,
@@ -183,6 +195,7 @@ select round(avg(dti)*100,2) as Average_Interest_Rate from financial_loan
    
    /*MOM Average DTI
    formula=(MTD-PMTD)/PMTD*/
+   
   with cte as(
    select
    YEAR(issue_date) as Year,
@@ -200,40 +213,49 @@ select round(avg(dti)*100,2) as Average_Interest_Rate from financial_loan
 
 
 /*6 Total Good Loan*/
+
 select distinct(count(id)) as Total_good_loan_application from financial_loan where loan_status='fully Paid' or loan_status='current' 
 
 /* Total Good Loan percentage*/
+
 select
 round((count(case when loan_status='fully Paid' or loan_status='current' then id end)*100.0)/count(id),2) as Total_Good_Loan_percentage
 from financial_loan
 
 /*Good loan Funded Amount*/
+
 select sum(loan_amount) as Good_loan_Funded_Amount  from financial_loan
 where loan_status='fully Paid' or loan_status='current' 
 
 /*Good loan Received Amount*/
+
 select sum(total_payment) as Good_loan_Received_Amount  from financial_loan
 where loan_status='fully Paid' or loan_status='current' 
 
 
 /*6 Total Bad Loan*/
+
 select distinct(count(id)) as Total_good_loan_application from financial_loan where loan_status='charged off' 
 
 /* Total Bad Loan percentage*/
+
 select
 round((count(case when loan_status='charged off' then id end)*100.0)/count(id),2) as Total_Bad_Loan_percentage
 from financial_loan
 
 /*Bad loan Funded Amount*/
+
 select sum(loan_amount) as Bad_loan_Funded_Amount  from financial_loan
 where loan_status='charged off'
 
 /*Bad loan Received Amount*/
+
 select sum(total_payment) as Bad_loan_Received_Amount  from financial_loan
 where loan_status='charged off'
 
 
 /*7. Loan Status*/
+
 select * from financial_loan
 
 select loan_status,
@@ -270,7 +292,8 @@ from cte
 order by year,Month
 
 
-/*Monthly Trend by issue_date*/
+8./*Monthly Trend by issue_date*/
+
 select
 DATEPART(month,issue_date) as Month_Number,
 DATENAME(month,issue_date) as Month_name,
@@ -280,7 +303,8 @@ sum(total_payment) as Total_amount_received from financial_loan
 group by DATEPART(month,issue_date),DATENAME(month,issue_date)
 order by Month_Number
 
-/*regional analysis by state*/
+9./*regional analysis by state*/
+
 select
 address_state,
 count(id) as Total_loan_application,
@@ -290,7 +314,8 @@ group by address_state
 order by address_state
 
 
-/*Loan term analysis*/
+10./*Loan term analysis*/
+
 select
 term,
 count(id) as Total_loan_application,
@@ -299,7 +324,8 @@ sum(total_payment) as Total_amount_received from financial_loan
 group by term
 order by term
 
-/*Employee length analysis*/
+11./*Employee length analysis*/
+
 select
 emp_length,
 count(id) as Total_loan_application,
@@ -308,7 +334,8 @@ sum(total_payment) as Total_amount_received from financial_loan
 group by emp_length
 order by emp_length
 
-/*Employee purpose analysis*/
+12./*Employee purpose analysis*/
+
 select
 purpose,
 count(id) as Total_loan_application,
@@ -317,7 +344,8 @@ sum(total_payment) as Total_amount_received from financial_loan
 group by purpose
 order by purpose
 
-/*Home ownership analysis*/
+13./*Home ownership analysis*/
+
 select
 home_ownership,
 count(id) as Total_loan_application,
